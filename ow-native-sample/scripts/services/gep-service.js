@@ -8,7 +8,7 @@ define([
   ],
   function (screenshotService) {
 
-    const REQUIRED_FEATURES = ['kill'];
+    const REQUIRED_FEATURES = ['kill', 'death', 'match', 'location', 'me', 'map', 'phase', 'roster', 'killer'];
     const REGISTER_RETRY_TIMEOUT = 10000;
 
     function registerToGEP() {
@@ -21,10 +21,15 @@ define([
           overwolf.games.events.onNewEvents.addListener(_handleGameEvent);
         }
       });
+      overwolf.games.getRunningGameInfo(function(value) {
+        console.log('RunningGameInfo');
+        console.log(value);
+      })
     }
 
     async function _handleGameEvent(eventsInfo) {
       for (let eventData of eventsInfo.events) {
+        console.log('event: ' + JSON.stringify(eventData));
         switch (eventData.name) {
           case 'kill': {
             try {
